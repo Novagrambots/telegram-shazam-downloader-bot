@@ -195,9 +195,9 @@ TRANSLATIONS = {
         ),
     },
     "shazam.promo": {
-        "ru": f"\n\n{E['music']} Распознавай музыку через @{{bot_username}}",
-        "uz": f"\n\n{E['music']} @{{bot_username}} orqali musiqani aniqlang",
-        "en": f"\n\n{E['music']} Recognize music via @{{bot_username}}",
+        "ru": f"\n\n{E['music']} Любой трек за пару секунд — @{{bot_username}}",
+        "uz": f"\n\n{E['music']} Istalgan trek bir necha soniyada — @{{bot_username}}",
+        "en": f"\n\n{E['music']} Any track in seconds — @{{bot_username}}",
     },
     "shazam.no_audio": {
         "ru": f"{E['warning']} <b>В файле нет звука.</b>\n\nПришли аудио или видео со звуком.",
