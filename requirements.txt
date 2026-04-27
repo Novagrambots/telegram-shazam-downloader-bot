@@ -1,0 +1,17 @@
+# Основные зависимости
+aiogram==3.26.0
+SQLAlchemy==2.0.38
+asyncpg==0.30.0
+alembic==1.14.1
+shazamio>=0.7.0
+yt-dlp>=2025.3.31
+Pillow==10.4.0
+pydantic-settings==2.8.1
+
+# Утилиты
+aiofiles==23.2.1
+python-dotenv==1.0.1
+aiohttp==3.10.11
+
+# Ускорение asyncio (не работает на Windows!)
+uvloop==0.22.1

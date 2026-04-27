@@ -1,0 +1,52 @@
+services:
+  # Наш бот
+  bot:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      # tmp для скачанных медиа (не занимает место в контейнере)
+      - /tmp/shazam_bot:/tmp/shazam_bot
+
+  # Cloudflare WARP — бесплатный VPN на случай если YouTube блокирует IP
+  # Для активации: WARP_ENABLED=1 в .env (yt-dlp начнёт ходить через socks5://warp:9091)
+  warp:
+    image: ghcr.io/mon-ius/docker-warp-socks:v5
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -x socks5://127.0.0.1:9091 -s --max-time 5 https://www.cloudflare.com/cdn-cgi/trace | grep -q warp=on"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+  # Автоперезапуск unhealthy контейнеров (особенно WARP)
+  autoheal:
+    image: willfarrell/autoheal:latest
+    restart: unless-stopped
+    environment:
+      AUTOHEAL_CONTAINER_LABEL: all
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  # PostgreSQL
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-bot_4_shazam}
+      POSTGRES_USER: ${DB_USER:-bot_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-bot_user} -d ${DB_NAME:-bot_4_shazam}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres-data:
