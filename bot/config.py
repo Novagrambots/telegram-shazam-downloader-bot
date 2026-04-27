@@ -25,9 +25,8 @@ class Settings(BaseSettings):
 
     # === yt-dlp прокси (для скачивания трека после распознавания) ===
     # Резидентный SOCKS5 прокси (приоритет 1) — например socks5://user:pass@host:port
+    # WARP в docker-compose используется всегда как fallback (приоритет 2)
     proxy_url: str = ""
-    # Cloudflare WARP внутри docker-compose (приоритет 2)
-    warp_enabled: bool = False
 
     # максимальный размер входящего файла (МБ)
     max_input_mb: int = 20

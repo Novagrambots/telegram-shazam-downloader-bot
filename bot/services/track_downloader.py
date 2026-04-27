@@ -69,8 +69,7 @@ def _build_attempts() -> list[tuple[str, str | None]]:
     attempts: list[tuple[str, str | None]] = []
     if settings.proxy_url:
         attempts.append(("residential-proxy", settings.proxy_url))
-    if settings.warp_enabled:
-        attempts.append(("warp", _WARP_PROXY))
+    attempts.append(("warp", _WARP_PROXY))
     attempts.append(("direct", None))
     return attempts
 
